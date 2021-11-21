@@ -1,15 +1,38 @@
-3
-1 2 3 4 5 6 7 8
-1
-4 6
-1 a 2
-1 b 5
-2 b 7
-2 a 3
-3 a 6
-4 c 3
-5 a 8
-5 b 4
-5 c 6
-7 b 6
-8 b 6
+package com.company;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
+public class Main {
+    public static void main(String args) {
+    if(true){int a;}
+        StringBuilder text = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader()) {
+            reader.lines().forEach(s -> {
+                text.append(s);
+                text.append("\n");
+            });
+        }
+
+        Analyzer analyzer = new Analyzer();
+        analyzer.analyze(text.toString(), buildPatterns());
+    }
+
+    private static List<Analyzer.PatternWithName> buildPatterns() {
+        List<Analyzer.PatternWithName> patterns = new ArrayList<>();
+        patterns.add(new Analyzer.PatternWithName(Pattern.compile(Patterns.STRING_LITERAL), "string"));
+        patterns.add(new Analyzer.PatternWithName(Pattern.compile(Patterns.CHAR), "char"));
+        patterns.add(new Analyzer.PatternWithName(Pattern.compile(Patterns.CHAR_ERROR), "error"));
+        patterns.add(new Analyzer.PatternWithName(Pattern.compile(Patterns.KEYWORD), "keyword"));
+        patterns.add(new Analyzer.PatternWithName(Pattern.compile(Patterns.IDENTIFIER), "identifier"));
+        patterns.add(new Analyzer.PatternWithName(Pattern.compile(Patterns.OPERATORS), "operator"));
+        patterns.add(new Analyzer.PatternWithName(Pattern.compile(Patterns.DECIMAL_LITERAL), "decimal"));
+        patterns.add(new Analyzer.PatternWithName(Pattern.compile(Patterns.BIN_LITERAL), "binary"));
+        patterns.add(new Analyzer.PatternWithName(Pattern.compile(Patterns.DELIMITER), "delimiter"));
+        return patterns;
+    }
+}
